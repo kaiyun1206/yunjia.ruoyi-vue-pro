@@ -1,4 +1,3 @@
-import type { CSSProperties } from 'vue'
 declare global {
   declare interface Fn<T = any> {
     (...arg: T[]): T
@@ -43,7 +42,7 @@ declare global {
   }
 
   declare interface Tree {
-    id: number
+    id: number | string
     name: string
     children?: Tree[] | any[]
   }

@@ -24,14 +24,14 @@
             preIcon="ep:edit"
             :title="t('action.edit')"
             v-hasPermi="['system:dict:update']"
-            @click="handleTypeUpdate(row.id)"
+            @click="handleTypeUpdate(row.logicCode)"
           />
           <!-- 操作：删除类型 -->
           <XTextButton
             preIcon="ep:delete"
             :title="t('action.del')"
             v-hasPermi="['system:dict:delete']"
-            @click="typeDeleteData(row.id)"
+            @click="typeDeleteData(row.logicCode)"
           />
         </template>
       </XTable>
@@ -67,14 +67,14 @@
               v-hasPermi="['system:dict:update']"
               preIcon="ep:edit"
               :title="t('action.edit')"
-              @click="handleDataUpdate(row.id)"
+              @click="handleDataUpdate(row.logicCode)"
             />
             <!-- 操作：删除数据 -->
             <XTextButton
               v-hasPermi="['system:dict:delete']"
               preIcon="ep:delete"
               :title="t('action.del')"
-              @click="dataDeleteData(row.id)"
+              @click="dataDeleteData(row.logicCode)"
             />
           </template>
         </XTable>
@@ -87,11 +87,13 @@
         :rules="DictTypeSchemas.dictTypeRules"
         ref="typeFormRef"
       >
-        <template #type>
+        <template #dictTypeCode>
           <template v-if="actionType == 'typeUpdate'">
             <el-tag>{{ dictTypeValue }}</el-tag>
           </template>
-          <template v-else><el-input v-model="dictTypeValue" /> </template>
+          <template v-else>
+            <el-input v-model="dictTypeValue"/>
+          </template>
         </template>
       </Form>
       <Form
@@ -122,18 +124,18 @@
   </div>
 </template>
 <script setup lang="ts" name="Dict">
-import { VxeTableEvents } from 'vxe-table'
-import type { FormExpose } from '@/components/Form'
+import {VxeTableEvents} from 'vxe-table'
+import type {FormExpose} from '@/components/Form'
 import * as DictTypeSchemas from './dict.type'
 import * as DictDataSchemas from './dict.data'
 import * as DictTypeApi from '@/api/system/dict/dict.type'
 import * as DictDataApi from '@/api/system/dict/dict.data'
-import { DictDataVO, DictTypeVO } from '@/api/system/dict/types'
+import {DictDataVO, DictTypeVO} from '@/api/system/dict/types'
 
-const { t } = useI18n() // 国际化
+const {t} = useI18n() // 国际化
 const message = useMessage() // 消息弹窗
 
-const [registerType, { reload: typeGetList, deleteData: typeDeleteData }] = useXTable({
+const [registerType, {reload: typeGetList, deleteData: typeDeleteData}] = useXTable({
   allSchemas: DictTypeSchemas.allSchemas,
   getListApi: DictTypeApi.getDictTypePageApi,
   deleteApi: DictTypeApi.deleteDictTypeApi
@@ -155,11 +157,11 @@ const handleTypeCreate = () => {
   dictTypeValue.value = ''
   setDialogTile('typeCreate')
 }
-const handleTypeUpdate = async (rowId: number) => {
+const handleTypeUpdate = async (rowId: string) => {
   setDialogTile('typeUpdate')
   // 设置数据
   const res = await DictTypeApi.getDictTypeApi(rowId)
-  dictTypeValue.value = res.type
+  dictTypeValue.value = res.dictTypeCode
   unref(typeFormRef)?.setValues(res)
 }
 
@@ -167,7 +169,7 @@ const handleTypeUpdate = async (rowId: number) => {
 const handleDataCreate = () => {
   setDialogTile('dataCreate')
 }
-const handleDataUpdate = async (rowId: number) => {
+const handleDataUpdate = async (rowId: string) => {
   setDialogTile('dataUpdate')
   // 设置数据
   const res = await DictDataApi.getDictDataApi(rowId)
@@ -178,9 +180,9 @@ const parentType = ref('')
 const tableTypeSelect = ref(false)
 const cellClickEvent: VxeTableEvents.CellClick = async ({ row }) => {
   tableTypeSelect.value = true
-  queryParams.dictType = row['type']
+  queryParams.dictType = row['dictTypeCode']
   await dataGetList()
-  parentType.value = row['type']
+  parentType.value = row['dictTypeCode']
 }
 // 弹出框
 const dialogVisible = ref(false) // 是否显示弹出层
@@ -208,7 +210,7 @@ const submitTypeForm = async () => {
       try {
         const data = unref(typeFormRef)?.formModel as DictTypeVO
         if (actionType.value === 'typeCreate') {
-          data.type = dictTypeValue.value
+          data.dictTypeCode = dictTypeValue.value
           await DictTypeApi.createDictTypeApi(data)
           message.success(t('common.createSuccess'))
         } else if (actionType.value === 'typeUpdate') {
@@ -233,7 +235,7 @@ const submitDataForm = async () => {
       try {
         const data = unref(dataFormRef)?.formModel as DictDataVO
         if (actionType.value === 'dataCreate') {
-          data.dictType = parentType.value
+          data.dictTypeCode = parentType.value
           await DictDataApi.createDictDataApi(data)
           message.success(t('common.createSuccess'))
         } else if (actionType.value === 'dataUpdate') {

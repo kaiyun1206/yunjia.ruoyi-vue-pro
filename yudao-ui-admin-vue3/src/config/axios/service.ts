@@ -1,21 +1,21 @@
 import axios, {
+  AxiosError,
   AxiosInstance,
   AxiosRequestConfig,
   AxiosRequestHeaders,
-  AxiosResponse,
-  AxiosError
+  AxiosResponse
 } from 'axios'
-import { ElMessage, ElMessageBox, ElNotification } from 'element-plus'
+import {ElMessage, ElMessageBox, ElNotification} from 'element-plus'
 import qs from 'qs'
-import { config } from '@/config/axios/config'
-import { getAccessToken, getRefreshToken, getTenantId, removeToken, setToken } from '@/utils/auth'
+import {config} from '@/config/axios/config'
+import {getAccessToken, getRefreshToken, getTenantId, removeToken, setToken} from '@/utils/auth'
 import errorCode from './errorCode'
 
-import { resetRouter } from '@/router'
-import { useCache } from '@/hooks/web/useCache'
+import {resetRouter} from '@/router'
+import {useCache} from '@/hooks/web/useCache'
 
 const tenantEnable = import.meta.env.VITE_APP_TENANT_ENABLE
-const { result_code, base_url, request_timeout } = config
+const {result_code, base_url, request_timeout} = config
 
 // 需要忽略的提示。忽略后，自动 Promise.reject('error')
 const ignoreMsgs = [
@@ -56,7 +56,7 @@ service.interceptors.request.use(
     // 设置租户
     if (tenantEnable && tenantEnable === 'true') {
       const tenantId = getTenantId()
-      if (tenantId) (config as Recordable).headers['tenant-id'] = tenantId
+      if (tenantId) (config as Recordable).headers['tenantCode'] = tenantId
     }
     const params = config.params || {}
     const data = config.data || false
@@ -124,7 +124,7 @@ service.interceptors.response.use(
     if (ignoreMsgs.indexOf(msg) !== -1) {
       // 如果是忽略的错误码，直接返回 msg 异常
       return Promise.reject(msg)
-    } else if (code === 401) {
+    } else if (code === 401 || code === 4010) {
       // 如果未认证，并且未进行刷新令牌，说明可能是访问令牌过期了
       if (!isRefreshToken) {
         isRefreshToken = true
@@ -182,12 +182,12 @@ service.interceptors.response.use(
           '<div>5 分钟搭建本地环境</div>'
       })
       return Promise.reject(new Error(msg))
-    } else if (code !== 200) {
+    } else if (code !== 200 && code !== 2000) {
       if (msg === '无效的刷新令牌') {
         // hard coding：忽略这个提示，直接登出
         console.log(msg)
       } else {
-        ElNotification.error({ title: msg })
+        ElNotification.error({title: msg})
       }
       return Promise.reject('error')
     } else {
@@ -211,8 +211,8 @@ service.interceptors.response.use(
 )
 
 const refreshToken = async () => {
-  axios.defaults.headers.common['tenant-id'] = getTenantId()
-  return await axios.post(base_url + '/system/auth/refresh-token?refreshToken=' + getRefreshToken())
+  axios.defaults.headers.common['tenantCode'] = getTenantId()
+  return await axios.post(base_url + '/system/auth/refresh/token?refreshToken=' + getRefreshToken())
 }
 const handleAuthorized = () => {
   const { t } = useI18n()

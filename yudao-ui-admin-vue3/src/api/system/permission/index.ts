@@ -1,42 +1,42 @@
 import request from '@/config/axios'
 
 export interface PermissionAssignUserRoleReqVO {
-  userId: number
-  roleIds: number[]
+  userCode: string
+  roleCodes: string[]
 }
 
 export interface PermissionAssignRoleMenuReqVO {
-  roleId: number
-  menuIds: number[]
+  roleLogicCode: string
+  menuCodes: string[]
 }
 
 export interface PermissionAssignRoleDataScopeReqVO {
-  roleId: number
+  roleLogicCode: string
   dataScope: number
-  dataScopeDeptIds: number[]
+  dataScopeDeptCodes: string[]
 }
 
 // 查询角色拥有的菜单权限
-export const listRoleMenusApi = async (roleId: number) => {
-  return await request.get({ url: '/system/permission/list-role-resources?roleId=' + roleId })
+export const listRoleMenusApi = async (roleLogicCode: string) => {
+  return await request.get({url: '/system/permission/list/role/resources?roleLogicCode=' + roleLogicCode})
 }
 
 // 赋予角色菜单权限
 export const assignRoleMenuApi = async (data: PermissionAssignRoleMenuReqVO) => {
-  return await request.post({ url: '/system/permission/assign-role-menu', data })
+  return await request.post({url: '/system/permission/assign/role/menu', data})
 }
 
 // 赋予角色数据权限
 export const assignRoleDataScopeApi = async (data: PermissionAssignRoleDataScopeReqVO) => {
-  return await request.post({ url: '/system/permission/assign-role-data-scope', data })
+  return await request.post({url: '/system/permission/assign/role/data/scope', data})
 }
 
 // 查询用户拥有的角色数组
-export const listUserRolesApi = async (userId: number) => {
-  return await request.get({ url: '/system/permission/list-user-roles?userId=' + userId })
+export const listUserRolesApi = async (userCode: string) => {
+  return await request.get({url: '/system/permission/list/user/roles?userCode=' + userCode})
 }
 
 // 赋予用户角色
 export const aassignUserRoleApi = async (data: PermissionAssignUserRoleReqVO) => {
-  return await request.post({ url: '/system/permission/assign-user-role', data })
+  return await request.post({url: '/system/permission/assign/user/role', data})
 }

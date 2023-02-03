@@ -1,34 +1,33 @@
 import request from '@/config/axios'
 
 export interface UserVO {
-  id: number
-  username: string
-  nickname: string
-  deptId: number
-  postIds: string[]
-  email: string
-  mobile: string
-  sex: number
-  avatar: string
+  logicCode: string
+  loginName: string
+  userNickname: string
+  userEmail: string
+  userMobile: string
+  userSex: number
+  userAvatar: string
+  userStatus: number
+  userRemark: string
+  userDeptPostMap: Map<string, string[]>
   loginIp: string
-  status: number
-  remark: string
   loginDate: Date
   createTime: Date
 }
 
 export interface UserPageReqVO extends PageParam {
-  deptId?: number
-  username?: string
-  mobile?: string
-  status?: number
+  deptCode?: string
+  loginName?: string
+  userMobile?: string
+  userStatus?: number
   createTime?: Date[]
 }
 
 export interface UserExportReqVO {
-  code?: string
-  name?: string
-  status?: number
+  deptCode?: string
+  loginName?: string
+  userStatus?: number
   createTime?: Date[]
 }
 
@@ -38,8 +37,8 @@ export const getUserPageApi = (params: UserPageReqVO) => {
 }
 
 // 查询用户详情
-export const getUserApi = (id: number) => {
-  return request.get({ url: '/system/user/get?id=' + id })
+export const getUserApi = (logicCode: string) => {
+  return request.get({url: '/system/user/get?logicCode=' + logicCode})
 }
 
 // 新增用户
@@ -53,8 +52,8 @@ export const updateUserApi = (data: UserVO) => {
 }
 
 // 删除用户
-export const deleteUserApi = (id: number) => {
-  return request.delete({ url: '/system/user/delete?id=' + id })
+export const deleteUserApi = (logicCode: string) => {
+  return request.delete({url: '/system/user/delete?logicCode=' + logicCode})
 }
 
 // 导出用户
@@ -64,28 +63,28 @@ export const exportUserApi = (params: UserExportReqVO) => {
 
 // 下载用户导入模板
 export const importUserTemplateApi = () => {
-  return request.download({ url: '/system/user/get-import-template' })
+  return request.download({url: '/system/user/get/import/template'})
 }
 
 // 用户密码重置
-export const resetUserPwdApi = (id: number, password: string) => {
+export const resetUserPwdApi = (logicCode: string, loginPassword: string) => {
   const data = {
-    id,
-    password
+    logicCode,
+    loginPassword
   }
-  return request.put({ url: '/system/user/update-password', data: data })
+  return request.put({url: '/system/user/update/password', data: data})
 }
 
 // 用户状态修改
-export const updateUserStatusApi = (id: number, status: number) => {
+export const updateUserStatusApi = (logicCode: string, userStatus: number) => {
   const data = {
-    id,
-    status
+    logicCode,
+    userStatus
   }
-  return request.put({ url: '/system/user/update-status', data: data })
+  return request.put({url: '/system/user/update/status', data: data})
 }
 
 // 获取用户精简信息列表
 export const getListSimpleUsersApi = () => {
-  return request.get({ url: '/system/user/list-all-simple' })
+  return request.get({url: '/system/user/simple/list/all'})
 }

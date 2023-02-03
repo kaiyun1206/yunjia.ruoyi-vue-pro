@@ -1,13 +1,13 @@
-import type { VxeCrudSchema } from '@/hooks/web/useVxeCrudSchemas'
+import type {VxeCrudSchema} from '@/hooks/web/useVxeCrudSchemas'
 // 国际化
 const { t } = useI18n()
 // 表单校验
 export const rules = reactive({
-  username: [required],
-  nickname: [required],
-  email: [required],
-  status: [required],
-  mobile: [
+  loginName: [required],
+  userNickname: [required],
+  userEmail: [required],
+  userStatus: [required],
+  userMobile: [
     {
       len: 11,
       trigger: 'blur',
@@ -17,7 +17,7 @@ export const rules = reactive({
 })
 // crudSchemas
 const crudSchemas = reactive<VxeCrudSchema>({
-  primaryKey: 'id',
+  primaryKey: 'logicCode',
   primaryType: 'seq',
   primaryTitle: '用户编号',
   action: true,
@@ -25,12 +25,12 @@ const crudSchemas = reactive<VxeCrudSchema>({
   columns: [
     {
       title: '用户账号',
-      field: 'username',
+      field: 'loginName',
       isSearch: true
     },
     {
       title: '用户密码',
-      field: 'password',
+      field: 'loginPassword',
       isDetail: false,
       isTable: false,
       form: {
@@ -39,30 +39,30 @@ const crudSchemas = reactive<VxeCrudSchema>({
     },
     {
       title: '用户昵称',
-      field: 'nickname'
+      field: 'userNickname'
     },
     {
       title: '用户邮箱',
-      field: 'email'
+      field: 'userEmail'
     },
     {
       title: '手机号码',
-      field: 'mobile',
+      field: 'userMobile',
       isSearch: true
     },
-    {
-      title: '部门',
-      field: 'deptId',
-      isTable: false
-    },
-    {
-      title: '岗位',
-      field: 'postIds',
-      isTable: false
-    },
+    // {
+    //   title: '部门',
+    //   field: 'deptId',
+    //   isTable: false
+    // },
+    // {
+    //   title: '岗位',
+    //   field: 'postIds',
+    //   isTable: false
+    // },
     {
       title: t('common.status'),
-      field: 'status',
+      field: 'userStatus',
       dictType: DICT_TYPE.COMMON_STATUS,
       dictClass: 'number',
       isSearch: true,
@@ -86,7 +86,7 @@ const crudSchemas = reactive<VxeCrudSchema>({
     },
     {
       title: t('form.remark'),
-      field: 'remark',
+      field: 'userRemark',
       isTable: false
     },
     {

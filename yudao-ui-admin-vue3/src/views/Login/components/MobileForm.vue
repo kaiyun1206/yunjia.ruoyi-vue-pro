@@ -92,23 +92,23 @@
   </el-form>
 </template>
 <script setup lang="ts">
-import type { RouteLocationNormalizedLoaded } from 'vue-router'
+import type {RouteLocationNormalizedLoaded} from 'vue-router'
 
-import { useIcon } from '@/hooks/web/useIcon'
+import {useIcon} from '@/hooks/web/useIcon'
 
-import { setTenantId, setToken } from '@/utils/auth'
-import { usePermissionStore } from '@/store/modules/permission'
-import { getTenantIdByNameApi, sendSmsCodeApi, smsLoginApi } from '@/api/login'
+import {setTenantId, setToken} from '@/utils/auth'
+import {usePermissionStore} from '@/store/modules/permission'
+import {getTenantIdByNameApi, sendSmsCodeApi, smsLoginApi} from '@/api/login'
 import LoginFormTitle from './LoginFormTitle.vue'
-import { useLoginState, LoginStateEnum, useFormValid } from './useLogin'
+import {LoginStateEnum, useFormValid, useLoginState} from './useLogin'
 
-const { t } = useI18n()
+const {t} = useI18n()
 const message = useMessage()
 const permissionStore = usePermissionStore()
-const { currentRoute, push } = useRouter()
+const {currentRoute, push} = useRouter()
 const formSmsLogin = ref()
 const loginLoading = ref(false)
-const iconHouse = useIcon({ icon: 'ep:house' })
+const iconHouse = useIcon({icon: 'ep:house'})
 const iconCellphone = useIcon({ icon: 'ep:cellphone' })
 const iconCircleCheck = useIcon({ icon: 'ep:circle-check' })
 const { validForm } = useFormValid(formSmsLogin)
@@ -129,7 +129,7 @@ const loginData = reactive({
   },
   loginForm: {
     uuid: '',
-    tenantName: '芋道源码',
+    tenantName: '云佳社区',
     mobileNumber: '',
     code: ''
   }

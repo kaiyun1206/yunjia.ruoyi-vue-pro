@@ -4,14 +4,14 @@ interface TreeHelperConfig {
   pid: string
 }
 const DEFAULT_CONFIG: TreeHelperConfig = {
-  id: 'id',
+  id: 'logicCode',
   children: 'children',
   pid: 'pid'
 }
 export const defaultProps = {
   children: 'children',
   label: 'name',
-  value: 'id'
+  value: 'logicCode'
 }
 
 const getConfig = (config: Partial<TreeHelperConfig>) => Object.assign({}, DEFAULT_CONFIG, config)
@@ -214,8 +214,8 @@ export const eachTree = (treeDatas: any[], callBack: Fn, parentNode = {}) => {
 /**
  * 构造树型结构数据
  * @param {*} data 数据源
- * @param {*} id id字段 默认 'id'
- * @param {*} parentId 父节点字段 默认 'parentId'
+ * @param {*} id id字段 默认 'logicCode'
+ * @param {*} parentId 父节点字段 默认 'parentCode'
  * @param {*} children 孩子节点字段 默认 'children'
  */
 export const handleTree = (data: any[], id?: string, parentId?: string, children?: string) => {
@@ -224,8 +224,8 @@ export const handleTree = (data: any[], id?: string, parentId?: string, children
     return []
   }
   const config = {
-    id: id || 'id',
-    parentId: parentId || 'parentId',
+    id: id || 'logicCode',
+    parentId: parentId || 'parentCode',
     childrenList: children || 'children'
   }
 
@@ -268,14 +268,14 @@ export const handleTree = (data: any[], id?: string, parentId?: string, children
 /**
  * 构造树型结构数据
  * @param {*} data 数据源
- * @param {*} id id字段 默认 'id'
- * @param {*} parentId 父节点字段 默认 'parentId'
+ * @param {*} id id字段 默认 'logicCode'
+ * @param {*} parentId 父节点字段 默认 'parentCode'
  * @param {*} children 孩子节点字段 默认 'children'
  * @param {*} rootId 根Id 默认 0
  */
 export const handleTree2 = (data, id, parentId, children, rootId) => {
-  id = id || 'id'
-  parentId = parentId || 'parentId'
+  id = id || 'logicCode'
+  parentId = parentId || 'parentCode'
   children = children || 'children'
   rootId =
     rootId ||

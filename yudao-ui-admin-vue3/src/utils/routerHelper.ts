@@ -1,7 +1,7 @@
-import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
-import type { Router, RouteLocationNormalized, RouteRecordNormalized } from 'vue-router'
-import { isUrl } from '@/utils/is'
-import { omit, cloneDeep } from 'lodash-es'
+import type {RouteLocationNormalized, Router, RouteRecordNormalized} from 'vue-router'
+import {createRouter, createWebHashHistory, RouteRecordRaw} from 'vue-router'
+import {isUrl} from '@/utils/is'
+import {cloneDeep, omit} from 'lodash-es'
 
 const modules = import.meta.glob('../views/**/*.{vue,tsx}')
 
@@ -72,7 +72,7 @@ export const generateRoute = (routes: AppCustomRouteRecordRaw[]): AppRouteRecord
       meta: meta
     }
     //处理顶级非目录路由
-    if (!route.children && route.parentId == 0 && route.component) {
+    if (!route.children && route.parentCode === 'M0' && route.component) {
       data.component = Layout
       data.meta = {}
       data.name = toCamelCase(route.path, true) + 'Parent'

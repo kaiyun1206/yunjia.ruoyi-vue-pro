@@ -1,17 +1,17 @@
 export type UserLoginVO = {
-  username: string
-  password: string
+  loginName: string
+  loginPassword: string
   captchaVerification: string
 }
 
 export type TokenType = {
-  id: number // 编号
+  // id: number // 编号
   accessToken: string // 访问令牌
   refreshToken: string // 刷新令牌
-  userId: number // 用户编号
+  userCode: string // 用户编号
   userType: number //用户类型
-  clientId: string //客户端编号
   expiresTime: number //过期时间
+  // clientId: string //客户端编号
 }
 
 export type UserVO = {

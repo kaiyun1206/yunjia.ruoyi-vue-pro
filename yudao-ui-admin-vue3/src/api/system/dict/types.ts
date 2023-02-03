@@ -1,46 +1,46 @@
 export type DictTypeVO = {
-  id: number
-  name: string
-  type: string
-  status: number
-  remark: string
+  logicCode: string
+  dictName: string
+  dictTypeCode: string
+  isValid: number
+  dictTypeRemark: string
   createTime: Date
 }
 
 export type DictTypePageReqVO = {
-  name: string
-  type: string
-  status: number
+  dictName: string
+  dictTypeCode: string
+  isValid: number
   createTime: Date[]
 }
 
 export type DictTypeExportReqVO = {
-  name: string
-  type: string
-  status: number
+  dictName: string
+  dictTypeCode: string
+  isValid: number
   createTime: Date[]
 }
 
 export type DictDataVO = {
-  id: number
-  sort: number
-  label: string
-  value: string
-  dictType: string
-  status: number
+  logicCode: string
+  dictDataIndex: number
+  dictDataLabel: string
+  dictDataValue: string
+  dictTypeCode: string
+  isValid: number
   colorType: string
   cssClass: string
-  remark: string
+  dictDataRemark: string
   createTime: Date
 }
 export type DictDataPageReqVO = {
-  label: string
-  dictType: string
-  status: number
+  dictDataLabel: string
+  dictTypeCode: string
+  isValid: number
 }
 
 export type DictDataExportReqVO = {
-  label: string
-  dictType: string
-  status: number
+  dictDataLabel: string
+  dictTypeCode: string
+  isValid: number
 }

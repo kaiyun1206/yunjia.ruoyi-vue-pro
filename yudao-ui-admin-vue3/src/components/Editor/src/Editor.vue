@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { PropType } from 'vue'
-import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
-import { IDomEditor, IEditorConfig, i18nChangeLanguage } from '@wangeditor/editor'
-import { propTypes } from '@/utils/propTypes'
-import { isNumber } from '@/utils/is'
-import { ElMessage } from 'element-plus'
-import { useLocaleStore } from '@/store/modules/locale'
-import { getAccessToken, getTenantId } from '@/utils/auth'
+import {PropType} from 'vue'
+import {Editor, Toolbar} from '@wangeditor/editor-for-vue'
+import {i18nChangeLanguage, IDomEditor, IEditorConfig} from '@wangeditor/editor'
+import {propTypes} from '@/utils/propTypes'
+import {isNumber} from '@/utils/is'
+import {ElMessage} from 'element-plus'
+import {useLocaleStore} from '@/store/modules/locale'
+import {getAccessToken, getTenantId} from '@/utils/auth'
 
 type InsertFnType = (url: string, alt: string, href: string) => void
 
@@ -103,7 +103,7 @@ const editorConfig = computed((): IEditorConfig => {
           headers: {
             Accept: '*',
             Authorization: 'Bearer ' + getAccessToken(),
-            'tenant-id': getTenantId()
+            tenantCode: getTenantId()
           },
 
           // 跨域是否传递 cookie ，默认为 false

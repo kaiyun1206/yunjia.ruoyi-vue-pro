@@ -1,8 +1,8 @@
-import { useCache } from '@/hooks/web/useCache'
-import { TokenType } from '@/api/login/types'
-import { decrypt, encrypt } from '@/utils/jsencrypt'
+import {useCache} from '@/hooks/web/useCache'
+import {TokenType} from '@/api/login/types'
+import {decrypt, encrypt} from '@/utils/jsencrypt'
 
-const { wsCache } = useCache()
+const {wsCache} = useCache()
 
 const AccessTokenKey = 'ACCESS_TOKEN'
 const RefreshTokenKey = 'REFRESH_TOKEN'
@@ -40,22 +40,22 @@ const LoginFormKey = 'LOGINFORM'
 
 export type LoginFormType = {
   tenantName: string
-  username: string
-  password: string
+  loginName: string
+  loginPassword: string
   rememberMe: boolean
 }
 
 export const getLoginForm = () => {
   const loginForm: LoginFormType = wsCache.get(LoginFormKey)
   if (loginForm) {
-    loginForm.password = decrypt(loginForm.password) as string
+    loginForm.loginPassword = decrypt(loginForm.loginPassword) as string
   }
   return loginForm
 }
 
 export const setLoginForm = (loginForm: LoginFormType) => {
-  loginForm.password = encrypt(loginForm.password) as string
-  wsCache.set(LoginFormKey, loginForm, { exp: 30 * 24 * 60 * 60 })
+  loginForm.loginPassword = encrypt(loginForm.loginPassword) as string
+  wsCache.set(LoginFormKey, loginForm, {exp: 30 * 24 * 60 * 60})
 }
 
 export const removeLoginForm = () => {

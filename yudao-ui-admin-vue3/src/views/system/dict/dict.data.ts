@@ -1,15 +1,15 @@
-import type { VxeCrudSchema } from '@/hooks/web/useVxeCrudSchemas'
+import type {VxeCrudSchema} from '@/hooks/web/useVxeCrudSchemas'
 // 国际化
 const { t } = useI18n()
 // 表单校验
 export const dictDataRules = reactive({
-  label: [required],
-  value: [required],
-  sort: [required]
+  dictDataLabel: [required],
+  dictDataValue: [required],
+  dictDataIndex: [required]
 })
 // crudSchemas
 export const crudSchemas = reactive<VxeCrudSchema>({
-  primaryKey: 'id',
+  primaryKey: 'logicCode',
   primaryType: null,
   action: true,
   actionWidth: '140px',
@@ -17,18 +17,18 @@ export const crudSchemas = reactive<VxeCrudSchema>({
   columns: [
     {
       title: '字典类型',
-      field: 'dictType',
+      field: 'dictTypeCode',
       isTable: false,
       isForm: false
     },
     {
       title: '数据标签',
-      field: 'label',
+      field: 'dictDataLabel',
       isSearch: true
     },
     {
       title: '数据键值',
-      field: 'value'
+      field: 'dictDataValue'
     },
     // {
     //   title: '标签类型',
@@ -75,18 +75,18 @@ export const crudSchemas = reactive<VxeCrudSchema>({
     },
     {
       title: '显示排序',
-      field: 'sort',
+      field: 'dictDataIndex',
       isTable: false
     },
     {
       title: t('common.status'),
-      field: 'status',
-      dictType: DICT_TYPE.COMMON_STATUS,
+      field: 'isValid',
+      dictType: DICT_TYPE.IS_VALID,
       dictClass: 'number'
     },
     {
       title: t('form.remark'),
-      field: 'remark',
+      field: 'dictDataRemark',
       form: {
         component: 'Input',
         componentProps: {

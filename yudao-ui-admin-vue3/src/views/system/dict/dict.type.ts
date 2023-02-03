@@ -1,14 +1,15 @@
-import type { VxeCrudSchema } from '@/hooks/web/useVxeCrudSchemas'
-const { t } = useI18n() // 国际化
+import type {VxeCrudSchema} from '@/hooks/web/useVxeCrudSchemas'
+
+const {t} = useI18n() // 国际化
 
 // 表单校验
 export const dictTypeRules = reactive({
-  name: [required],
-  type: [required]
+  dictName: [required],
+  dictTypeCode: [required]
 })
 // 新增 + 修改
 const crudSchemas = reactive<VxeCrudSchema>({
-  primaryKey: 'id',
+  primaryKey: 'logicCode',
   primaryType: null,
   action: true,
   actionWidth: '140px',
@@ -16,18 +17,18 @@ const crudSchemas = reactive<VxeCrudSchema>({
   columns: [
     {
       title: '字典名称',
-      field: 'name',
+      field: 'dictName',
       isSearch: true
     },
     {
       title: '字典类型',
-      field: 'type',
+      field: 'dictTypeCode',
       isSearch: true
     },
     {
       title: t('common.status'),
-      field: 'status',
-      dictType: DICT_TYPE.COMMON_STATUS,
+      field: 'isValid',
+      dictType: DICT_TYPE.IS_VALID,
       dictClass: 'number',
       table: {
         width: 70
@@ -48,7 +49,7 @@ const crudSchemas = reactive<VxeCrudSchema>({
     },
     {
       title: t('form.remark'),
-      field: 'remark',
+      field: 'dictTypeRemark',
       isTable: false,
       form: {
         componentProps: {

@@ -6,8 +6,14 @@
 
 // 全局通用状态枚举
 export const CommonStatusEnum = {
-  ENABLE: 0, // 开启
-  DISABLE: 1 // 禁用
+  ENABLE: 1, // 开启
+  DISABLE: 0 // 禁用
+}
+
+export const UserStatusEnum = {
+  NORMAL: 1, // 正常
+  LOCK: 5, // 锁定
+  STOP: 10 // 停用
 }
 
 /**

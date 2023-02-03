@@ -75,20 +75,20 @@
   </XModal>
 </template>
 <script setup lang="ts" name="Dept">
-import { handleTree, defaultProps } from '@/utils/tree'
-import type { FormExpose } from '@/components/Form'
-import { allSchemas, rules } from './dept.data'
+import {defaultProps, handleTree} from '@/utils/tree'
+import type {FormExpose} from '@/components/Form'
+import {allSchemas, rules} from './dept.data'
 import * as DeptApi from '@/api/system/dept'
-import { getListSimpleUsersApi, UserVO } from '@/api/system/user'
+import {getListSimpleUsersApi, UserVO} from '@/api/system/user'
 
-const { t } = useI18n() // 国际化
+const {t} = useI18n() // 国际化
 const message = useMessage() // 消息弹窗
 // 列表相关的变量
 const xGrid = ref<any>() // 列表 Grid Ref
 const treeConfig = {
   transform: true,
-  rowField: 'id',
-  parentField: 'parentId',
+  rowField: 'logicCode',
+  parentField: 'parentCode',
   expandAll: true
 }
 

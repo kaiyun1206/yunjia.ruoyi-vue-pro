@@ -1,10 +1,10 @@
-import type { RouteRecordRaw } from 'vue-router'
-import { defineComponent } from 'vue'
+import type {RouteRecordRaw} from 'vue-router'
+import {defineComponent} from 'vue'
 
 /**
-* redirect: noredirect        当设置 noredirect 的时候该路由在面包屑导航中不可被点击
-* name:'router-name'          设定路由的名字，一定要填写不然使用<keep-alive>时会出现各种问题
-* meta : {
+ * redirect: noredirect        当设置 noredirect 的时候该路由在面包屑导航中不可被点击
+ * name:'router-name'          设定路由的名字，一定要填写不然使用<keep-alive>时会出现各种问题
+ * meta : {
     hidden: true              当设置 true 的时候该路由不会再侧边栏出现 如404，login等页面(默认 false)
 
     alwaysShow: true          当你一个路由下面的 children 声明的路由大于1个时，自动会变成嵌套的模式，
@@ -74,6 +74,7 @@ declare global {
     children?: AppCustomRouteRecordRaw[]
     keepAlive?: boolean
     visible?: boolean
-    parentId?: number
+    external?: boolean
+    parentCode?: string
   }
 }

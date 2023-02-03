@@ -33,11 +33,11 @@
   </div>
 </template>
 <script setup lang="ts" name="UploadFile">
-import { PropType } from 'vue'
+import {PropType} from 'vue'
 
-import { propTypes } from '@/utils/propTypes'
-import { getAccessToken, getTenantId } from '@/utils/auth'
-import type { UploadInstance, UploadUserFile, UploadProps, UploadRawFile } from 'element-plus'
+import {propTypes} from '@/utils/propTypes'
+import {getAccessToken, getTenantId} from '@/utils/auth'
+import type {UploadInstance, UploadProps, UploadRawFile, UploadUserFile} from 'element-plus'
 
 const message = useMessage() // 消息弹窗
 const emit = defineEmits(['update:modelValue'])
@@ -64,7 +64,7 @@ const fileList = ref<UploadUserFile[]>(props.modelValue)
 const uploadNumber = ref<number>(0)
 const uploadHeaders = ref({
   Authorization: 'Bearer ' + getAccessToken(),
-  'tenant-id': getTenantId()
+  tenantCode: getTenantId()
 })
 // 文件上传之前判断
 const beforeUpload: UploadProps['beforeUpload'] = (file: UploadRawFile) => {

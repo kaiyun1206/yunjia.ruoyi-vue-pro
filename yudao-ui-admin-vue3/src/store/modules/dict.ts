@@ -1,9 +1,10 @@
-import { defineStore } from 'pinia'
-import { store } from '../index'
-import { DictDataVO } from '@/api/system/dict/types'
-import { CACHE_KEY, useCache } from '@/hooks/web/useCache'
-const { wsCache } = useCache('sessionStorage')
-import { listSimpleDictDataApi } from '@/api/system/dict/dict.data'
+import {defineStore} from 'pinia'
+import {store} from '../index'
+import {DictDataVO} from '@/api/system/dict/types'
+import {CACHE_KEY, useCache} from '@/hooks/web/useCache'
+import {listSimpleDictDataApi} from '@/api/system/dict/dict.data'
+
+const {wsCache} = useCache('sessionStorage')
 
 export interface DictValueType {
   value: any
@@ -11,6 +12,7 @@ export interface DictValueType {
   clorType?: string
   cssClass?: string
 }
+
 export interface DictTypeType {
   dictType: string
   dictValue: DictValueType[]
@@ -49,14 +51,14 @@ export const useDictStore = defineStore('dict', {
         const dictDataMap = new Map<string, any>()
         res.forEach((dictData: DictDataVO) => {
           // 获得 dictType 层级
-          const enumValueObj = dictDataMap[dictData.dictType]
+          const enumValueObj = dictDataMap[dictData.dictTypeCode]
           if (!enumValueObj) {
-            dictDataMap[dictData.dictType] = []
+            dictDataMap[dictData.dictTypeCode] = []
           }
           // 处理 dictValue 层级
-          dictDataMap[dictData.dictType].push({
-            value: dictData.value,
-            label: dictData.label,
+          dictDataMap[dictData.dictTypeCode].push({
+            value: dictData.dictDataValue,
+            label: dictData.dictDataLabel,
             colorType: dictData.colorType,
             cssClass: dictData.cssClass
           })
@@ -79,14 +81,14 @@ export const useDictStore = defineStore('dict', {
       const dictDataMap = new Map<string, any>()
       res.forEach((dictData: DictDataVO) => {
         // 获得 dictType 层级
-        const enumValueObj = dictDataMap[dictData.dictType]
+        const enumValueObj = dictDataMap[dictData.dictTypeCode]
         if (!enumValueObj) {
-          dictDataMap[dictData.dictType] = []
+          dictDataMap[dictData.dictTypeCode] = []
         }
         // 处理 dictValue 层级
-        dictDataMap[dictData.dictType].push({
-          value: dictData.value,
-          label: dictData.label,
+        dictDataMap[dictData.dictTypeCode].push({
+          value: dictData.dictDataValue,
+          label: dictData.dictDataLabel,
           colorType: dictData.colorType,
           cssClass: dictData.cssClass
         })

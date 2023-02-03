@@ -51,11 +51,11 @@
 </template>
 
 <script setup lang="ts" name="UploadImg">
-import type { UploadProps } from 'element-plus'
+import type {UploadProps} from 'element-plus'
 
-import { generateUUID } from '@/utils'
-import { propTypes } from '@/utils/propTypes'
-import { getAccessToken, getTenantId } from '@/utils/auth'
+import {generateUUID} from '@/utils'
+import {propTypes} from '@/utils/propTypes'
+import {getAccessToken, getTenantId} from '@/utils/auth'
 
 type FileTypes =
   | 'image/apng'
@@ -96,7 +96,7 @@ const deleteImg = () => {
 
 const uploadHeaders = ref({
   Authorization: 'Bearer ' + getAccessToken(),
-  'tenant-id': getTenantId()
+  tenantCode: getTenantId()
 })
 
 const editImg = () => {

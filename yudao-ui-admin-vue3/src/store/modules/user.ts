@@ -1,16 +1,18 @@
-import { store } from '../index'
-import { defineStore } from 'pinia'
-import { getAccessToken, removeToken } from '@/utils/auth'
-import { CACHE_KEY, useCache } from '@/hooks/web/useCache'
-import { getInfoApi, loginOutApi } from '@/api/login'
+import {store} from '../index'
+import {defineStore} from 'pinia'
+import {getAccessToken, removeToken} from '@/utils/auth'
+import {CACHE_KEY, useCache} from '@/hooks/web/useCache'
+import {getInfoApi, loginOutApi} from '@/api/login'
 
-const { wsCache } = useCache()
+const {wsCache} = useCache()
 
 interface UserVO {
-  id: number
+  userCode: string
+  loginName: string
   avatar: string
   nickname: string
 }
+
 interface UserInfoVO {
   permissions: string[]
   roles: string[]
@@ -24,7 +26,8 @@ export const useUserStore = defineStore('admin-user', {
     roles: [],
     isSetUser: false,
     user: {
-      id: 0,
+      userCode: '',
+      loginName: '',
       avatar: '',
       nickname: ''
     }
@@ -70,7 +73,8 @@ export const useUserStore = defineStore('admin-user', {
       this.roles = []
       this.isSetUser = false
       this.user = {
-        id: 0,
+        userCode: '',
+        loginName: '',
         avatar: '',
         nickname: ''
       }

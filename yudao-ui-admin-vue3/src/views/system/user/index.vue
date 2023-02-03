@@ -11,10 +11,10 @@
       <el-scrollbar height="650">
         <el-tree
           ref="treeRef"
-          node-key="id"
+          node-key="logicCode"
           default-expand-all
           :data="deptOptions"
-          :props="defaultProps"
+          :props="deptTreeProps"
           :highlight-current="true"
           :filter-node-method="filterNode"
           :expand-on-click-node="false"
@@ -58,9 +58,9 @@
         </template>
         <template #status_default="{ row }">
           <el-switch
-            v-model="row.status"
-            :active-value="0"
-            :inactive-value="1"
+            v-model="row.userStatus"
+            :active-value="1"
+            :inactive-value="10"
             @change="handleStatusChange(row)"
           />
         </template>
@@ -70,14 +70,14 @@
             preIcon="ep:edit"
             :title="t('action.edit')"
             v-hasPermi="['system:user:update']"
-            @click="handleUpdate(row.id)"
+            @click="handleUpdate(row.logicCode)"
           />
           <!-- 操作：详情 -->
           <XTextButton
             preIcon="ep:view"
             :title="t('action.detail')"
             v-hasPermi="['system:user:update']"
-            @click="handleDetail(row.id)"
+            @click="handleDetail(row.logicCode)"
           />
           <el-dropdown
             class="p-0.5"
@@ -114,7 +114,7 @@
                     preIcon="ep:delete"
                     :title="t('action.del')"
                     v-hasPermi="['system:user:delete']"
-                    @click="deleteData(row.id)"
+                    @click="deleteData(row.logicCode)"
                   />
                 </el-dropdown-item>
               </el-dropdown-menu>
@@ -134,20 +134,20 @@
     >
       <template #deptId="form">
         <el-tree-select
-          node-key="id"
-          v-model="form['deptId']"
-          :props="defaultProps"
+          node-key="logicCode"
+          v-model="form['deptCode']"
+          :props="deptTreeProps"
           :data="deptOptions"
           check-strictly
         />
       </template>
       <template #postIds="form">
-        <el-select v-model="form['postIds']" multiple :placeholder="t('common.selectText')">
+        <el-select v-model="form['postCodes']" multiple :placeholder="t('common.selectText')">
           <el-option
             v-for="item in postOptions"
-            :key="item.id"
-            :label="item.name"
-            :value="(item.id as unknown as number)"
+            :key="item.logicCode"
+            :label="item.postName"
+            :value="(item.logicCode as unknown as string)"
           />
         </el-select>
       </template>
@@ -162,7 +162,7 @@
         <span>{{ row.dept?.name }}</span>
       </template>
       <template #postIds="{ row }">
-        <template v-if="row.postIds !== ''">
+        <template v-if="row.postCodes !== ''">
           <el-tag v-for="(post, index) in row.postIds" :key="index" index="">
             <template v-for="postObj in postOptions">
               {{ post === postObj.id ? postObj.name : '' }}
@@ -263,24 +263,23 @@
   </XModal>
 </template>
 <script setup lang="ts" name="User">
-import type { ElTree, UploadRawFile, UploadInstance } from 'element-plus'
-import { handleTree, defaultProps } from '@/utils/tree'
+import type {ElTree, UploadInstance, UploadRawFile} from 'element-plus'
+import {handleTree} from '@/utils/tree'
 import download from '@/utils/download'
-import { CommonStatusEnum } from '@/utils/constants'
-import { getAccessToken, getTenantId } from '@/utils/auth'
-import type { FormExpose } from '@/components/Form'
-import { rules, allSchemas } from './user.data'
+import {getAccessToken, getTenantId} from '@/utils/auth'
+import type {FormExpose} from '@/components/Form'
+import {allSchemas, rules} from './user.data'
 import * as UserApi from '@/api/system/user'
-import { listSimpleDeptApi } from '@/api/system/dept'
-import { listSimpleRolesApi } from '@/api/system/role'
-import { listSimplePostsApi, PostVO } from '@/api/system/post'
+import {listSimpleDeptApi} from '@/api/system/dept'
+import {listSimpleRolesApi} from '@/api/system/role'
+import {listSimplePostsApi, PostVO} from '@/api/system/post'
 import {
   aassignUserRoleApi,
   listUserRolesApi,
   PermissionAssignUserRoleReqVO
 } from '@/api/system/permission'
 
-const { t } = useI18n() // 国际化
+const {t} = useI18n() // 国际化
 const message = useMessage() // 消息弹窗
 
 const queryParams = reactive({
@@ -299,6 +298,11 @@ const [registerTable, { reload, deleteData, exportList }] = useXTable({
 // ========== 创建部门树结构 ==========
 const filterText = ref('')
 const deptOptions = ref<Tree[]>([]) // 树形结构
+export const deptTreeProps = {
+  children: 'children',
+  label: 'deptName',
+  value: 'logicCode'
+}
 const treeRef = ref<InstanceType<typeof ElTree>>()
 const getTree = async () => {
   const res = await listSimpleDeptApi()
@@ -344,10 +348,10 @@ const handleCreate = async () => {
   setDialogTile('create')
   // 重置表单
   await nextTick()
-  if (allSchemas.formSchema[0].field !== 'username') {
+  if (allSchemas.formSchema[0].field !== 'loginName') {
     unref(formRef)?.addSchema(
       {
-        field: 'username',
+        field: 'loginName',
         label: '用户账号',
         component: 'Input'
       },
@@ -355,7 +359,7 @@ const handleCreate = async () => {
     )
     unref(formRef)?.addSchema(
       {
-        field: 'password',
+        field: 'loginPassword',
         label: '用户密码',
         component: 'InputPassword'
       },
@@ -365,11 +369,11 @@ const handleCreate = async () => {
 }
 
 // 修改操作
-const handleUpdate = async (rowId: number) => {
+const handleUpdate = async (rowId: string) => {
   setDialogTile('update')
   await nextTick()
-  unref(formRef)?.delSchema('username')
-  unref(formRef)?.delSchema('password')
+  unref(formRef)?.delSchema('loginName')
+  unref(formRef)?.delSchema('loginPassword')
   // 设置数据
   const res = await UserApi.getUserApi(rowId)
   unref(formRef)?.setValues(res)
@@ -377,7 +381,7 @@ const handleUpdate = async (rowId: number) => {
 const detailData = ref()
 
 // 详情操作
-const handleDetail = async (rowId: number) => {
+const handleDetail = async (rowId: string) => {
   // 设置数据
   const res = await UserApi.getUserApi(rowId)
   detailData.value = res
@@ -407,26 +411,26 @@ const submitForm = async () => {
 }
 // 改变用户状态操作
 const handleStatusChange = async (row: UserApi.UserVO) => {
-  const text = row.status === CommonStatusEnum.ENABLE ? '启用' : '停用'
+  const text = row.userStatus === UserStatusEnum.NORMAL ? '启用' : '停用'
   message
-    .confirm('确认要"' + text + '""' + row.username + '"用户吗?', t('common.reminder'))
+  .confirm('确认要"' + text + '""' + row.loginName + '"用户吗?', t('common.reminder'))
     .then(async () => {
-      row.status =
-        row.status === CommonStatusEnum.ENABLE ? CommonStatusEnum.ENABLE : CommonStatusEnum.DISABLE
-      await UserApi.updateUserStatusApi(row.id, row.status)
+      row.userStatus =
+        row.userStatus === UserStatusEnum.NORMAL ? UserStatusEnum.NORMAL : UserStatusEnum.STOP
+      await UserApi.updateUserStatusApi(row.logicCode, row.userStatus)
       message.success(text + '成功')
       // 刷新列表
       await reload()
     })
     .catch(() => {
-      row.status =
-        row.status === CommonStatusEnum.ENABLE ? CommonStatusEnum.DISABLE : CommonStatusEnum.ENABLE
+      row.userStatus =
+        row.userStatus === UserStatusEnum.NORMAL ? UserStatusEnum.STOP : UserStatusEnum.NORMAL
     })
 }
 // 重置密码
 const handleResetPwd = (row: UserApi.UserVO) => {
-  message.prompt('请输入"' + row.username + '"的新密码', t('common.reminder')).then(({ value }) => {
-    UserApi.resetUserPwdApi(row.id, value).then(() => {
+  message.prompt('请输入"' + row.loginName + '"的新密码', t('common.reminder')).then(({value}) => {
+    UserApi.resetUserPwdApi(row.logicCode, value).then(() => {
       message.success('修改成功，新密码是：' + value)
     })
   })
@@ -435,18 +439,18 @@ const handleResetPwd = (row: UserApi.UserVO) => {
 const roleDialogVisible = ref(false)
 const roleOptions = ref()
 const userRole = reactive({
-  id: 0,
-  username: '',
-  nickname: '',
-  roleIds: []
+  logicCode: '',
+  loginName: '',
+  userNickname: '',
+  roleCodes: []
 })
 const handleRole = async (row: UserApi.UserVO) => {
-  userRole.id = row.id
-  userRole.username = row.username
-  userRole.nickname = row.nickname
+  userRole.logicCode = row.logicCode
+  userRole.loginName = row.loginName
+  userRole.userNickname = row.userNickname
   // 获得角色拥有的权限集合
-  const roles = await listUserRolesApi(row.id)
-  userRole.roleIds = roles
+  const roles = await listUserRolesApi(row.logicCode)
+  userRole.roleCodes = roles
   // 获取角色列表
   const roleOpt = await listSimpleRolesApi()
   roleOptions.value = roleOpt
@@ -455,8 +459,8 @@ const handleRole = async (row: UserApi.UserVO) => {
 // 提交
 const submitRole = async () => {
   const data = ref<PermissionAssignUserRoleReqVO>({
-    userId: userRole.id,
-    roleIds: userRole.roleIds
+    userCode: userRole.logicCode,
+    roleCodes: userRole.roleCodes
   })
   await aassignUserRoleApi(data.value)
   message.success(t('common.updateSuccess'))
@@ -490,7 +494,7 @@ const uploadRef = ref<UploadInstance>()
 const submitFileForm = () => {
   uploadHeaders.value = {
     Authorization: 'Bearer ' + getAccessToken(),
-    'tenant-id': getTenantId()
+    tenantCode: getTenantId()
   }
   uploadDisabled.value = true
   uploadRef.value!.submit()
