@@ -263,23 +263,23 @@
   </XModal>
 </template>
 <script setup lang="ts" name="User">
-import type {ElTree, UploadInstance, UploadRawFile} from 'element-plus'
-import {handleTree} from '@/utils/tree'
+import type { ElTree, UploadInstance, UploadRawFile } from 'element-plus'
+import { handleTree } from '@/utils/tree'
 import download from '@/utils/download'
-import {getAccessToken, getTenantId} from '@/utils/auth'
-import type {FormExpose} from '@/components/Form'
-import {allSchemas, rules} from './user.data'
+import { getAccessToken, getTenantId } from '@/utils/auth'
+import type { FormExpose } from '@/components/Form'
+import { allSchemas, rules } from './user.data'
 import * as UserApi from '@/api/system/user'
-import {listSimpleDeptApi} from '@/api/system/dept'
-import {listSimpleRolesApi} from '@/api/system/role'
-import {listSimplePostsApi, PostVO} from '@/api/system/post'
+import { listSimpleDeptApi } from '@/api/system/dept'
+import { listSimpleRolesApi } from '@/api/system/role'
+import { listSimplePostsApi, PostVO } from '@/api/system/post'
 import {
   aassignUserRoleApi,
   listUserRolesApi,
   PermissionAssignUserRoleReqVO
 } from '@/api/system/permission'
 
-const {t} = useI18n() // 国际化
+const { t } = useI18n() // 国际化
 const message = useMessage() // 消息弹窗
 
 const queryParams = reactive({
@@ -414,22 +414,22 @@ const handleStatusChange = async (row: UserApi.UserVO) => {
   const text = row.userStatus === UserStatusEnum.NORMAL ? '启用' : '停用'
   message
   .confirm('确认要"' + text + '""' + row.loginName + '"用户吗?', t('common.reminder'))
-    .then(async () => {
-      row.userStatus =
-        row.userStatus === UserStatusEnum.NORMAL ? UserStatusEnum.NORMAL : UserStatusEnum.STOP
-      await UserApi.updateUserStatusApi(row.logicCode, row.userStatus)
-      message.success(text + '成功')
-      // 刷新列表
-      await reload()
-    })
-    .catch(() => {
-      row.userStatus =
-        row.userStatus === UserStatusEnum.NORMAL ? UserStatusEnum.STOP : UserStatusEnum.NORMAL
-    })
+  .then(async () => {
+    row.userStatus =
+      row.userStatus === UserStatusEnum.NORMAL ? UserStatusEnum.NORMAL : UserStatusEnum.STOP
+    await UserApi.updateUserStatusApi(row.logicCode, row.userStatus)
+    message.success(text + '成功')
+    // 刷新列表
+    await reload()
+  })
+  .catch(() => {
+    row.userStatus =
+      row.userStatus === UserStatusEnum.NORMAL ? UserStatusEnum.STOP : UserStatusEnum.NORMAL
+  })
 }
 // 重置密码
 const handleResetPwd = (row: UserApi.UserVO) => {
-  message.prompt('请输入"' + row.loginName + '"的新密码', t('common.reminder')).then(({value}) => {
+  message.prompt('请输入"' + row.loginName + '"的新密码', t('common.reminder')).then(({ value }) => {
     UserApi.resetUserPwdApi(row.logicCode, value).then(() => {
       message.success('修改成功，新密码是：' + value)
     })

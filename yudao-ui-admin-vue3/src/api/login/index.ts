@@ -1,6 +1,6 @@
 import request from '@/config/axios'
-import {getRefreshToken} from '@/utils/auth'
-import type {UserLoginVO} from './types'
+import { getRefreshToken } from '@/utils/auth'
+import type { UserLoginVO } from './types'
 
 export interface CodeImgResult {
   captchaOnOff: boolean
@@ -12,6 +12,7 @@ export interface SmsCodeVO {
   mobile: string
   scene: number
 }
+
 export interface SmsLoginVO {
   mobile: string
   code: string
@@ -29,7 +30,7 @@ export const refreshToken = () => {
 
 // 使用租户名，获得租户编号
 export const getTenantIdByNameApi = (tenantName: string) => {
-  return request.get({url: '/system/tenant/get/code/by-name?tenantName=' + tenantName})
+  return request.get({ url: '/system/tenant/get/code/by-name?tenantName=' + tenantName })
 }
 
 // 登出
@@ -39,12 +40,12 @@ export const loginOutApi = () => {
 
 // 获取用户权限信息
 export const getInfoApi = () => {
-  return request.get({url: '/system/auth/permission/info'})
+  return request.get({ url: '/system/auth/permission/info' })
 }
 
 // 路由
 export const getAsyncRoutesApi = () => {
-  return request.get({url: '/system/auth/menus/list'})
+  return request.get({ url: '/system/auth/menus/list' })
 }
 
 //获取登录验证码

@@ -25,6 +25,7 @@ export interface OAuth2ClientPageReqVO extends PageParam {
   name?: string
   status?: number
 }
+
 // 查询 OAuth2列表
 export const getOAuth2ClientPageApi = (params: OAuth2ClientPageReqVO) => {
   return request.get({ url: '/system/oauth2-client/page', params })

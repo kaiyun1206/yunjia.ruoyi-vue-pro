@@ -1,10 +1,10 @@
-import {defineStore} from 'pinia'
-import {store} from '../index'
-import {DictDataVO} from '@/api/system/dict/types'
-import {CACHE_KEY, useCache} from '@/hooks/web/useCache'
-import {listSimpleDictDataApi} from '@/api/system/dict/dict.data'
+import { defineStore } from 'pinia'
+import { store } from '../index'
+import { DictDataVO } from '@/api/system/dict/types'
+import { CACHE_KEY, useCache } from '@/hooks/web/useCache'
+import { listSimpleDictDataApi } from '@/api/system/dict/dict.data'
 
-const {wsCache} = useCache('sessionStorage')
+const { wsCache } = useCache('sessionStorage')
 
 export interface DictValueType {
   value: any

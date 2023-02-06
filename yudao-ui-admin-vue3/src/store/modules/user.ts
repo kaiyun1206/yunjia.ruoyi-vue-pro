@@ -1,10 +1,10 @@
-import {store} from '../index'
-import {defineStore} from 'pinia'
-import {getAccessToken, removeToken} from '@/utils/auth'
-import {CACHE_KEY, useCache} from '@/hooks/web/useCache'
-import {getInfoApi, loginOutApi} from '@/api/login'
+import { store } from '../index'
+import { defineStore } from 'pinia'
+import { getAccessToken, removeToken } from '@/utils/auth'
+import { CACHE_KEY, useCache } from '@/hooks/web/useCache'
+import { getInfoApi, loginOutApi } from '@/api/login'
 
-const {wsCache} = useCache()
+const { wsCache } = useCache()
 
 interface UserVO {
   userCode: string

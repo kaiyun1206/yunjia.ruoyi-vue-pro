@@ -5,17 +5,17 @@ import axios, {
   AxiosRequestHeaders,
   AxiosResponse
 } from 'axios'
-import {ElMessage, ElMessageBox, ElNotification} from 'element-plus'
+import { ElMessage, ElMessageBox, ElNotification } from 'element-plus'
 import qs from 'qs'
-import {config} from '@/config/axios/config'
-import {getAccessToken, getRefreshToken, getTenantId, removeToken, setToken} from '@/utils/auth'
+import { config } from '@/config/axios/config'
+import { getAccessToken, getRefreshToken, getTenantId, removeToken, setToken } from '@/utils/auth'
 import errorCode from './errorCode'
 
-import {resetRouter} from '@/router'
-import {useCache} from '@/hooks/web/useCache'
+import { resetRouter } from '@/router'
+import { useCache } from '@/hooks/web/useCache'
 
 const tenantEnable = import.meta.env.VITE_APP_TENANT_ENABLE
-const {result_code, base_url, request_timeout} = config
+const { result_code, base_url, request_timeout } = config
 
 // 需要忽略的提示。忽略后，自动 Promise.reject('error')
 const ignoreMsgs = [
@@ -187,7 +187,7 @@ service.interceptors.response.use(
         // hard coding：忽略这个提示，直接登出
         console.log(msg)
       } else {
-        ElNotification.error({title: msg})
+        ElNotification.error({ title: msg })
       }
       return Promise.reject('error')
     } else {

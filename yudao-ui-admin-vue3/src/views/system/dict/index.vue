@@ -124,18 +124,18 @@
   </div>
 </template>
 <script setup lang="ts" name="Dict">
-import {VxeTableEvents} from 'vxe-table'
-import type {FormExpose} from '@/components/Form'
+import { VxeTableEvents } from 'vxe-table'
+import type { FormExpose } from '@/components/Form'
 import * as DictTypeSchemas from './dict.type'
 import * as DictDataSchemas from './dict.data'
 import * as DictTypeApi from '@/api/system/dict/dict.type'
 import * as DictDataApi from '@/api/system/dict/dict.data'
-import {DictDataVO, DictTypeVO} from '@/api/system/dict/types'
+import { DictDataVO, DictTypeVO } from '@/api/system/dict/types'
 
-const {t} = useI18n() // 国际化
+const { t } = useI18n() // 国际化
 const message = useMessage() // 消息弹窗
 
-const [registerType, {reload: typeGetList, deleteData: typeDeleteData}] = useXTable({
+const [registerType, { reload: typeGetList, deleteData: typeDeleteData }] = useXTable({
   allSchemas: DictTypeSchemas.allSchemas,
   getListApi: DictTypeApi.getDictTypePageApi,
   deleteApi: DictTypeApi.deleteDictTypeApi

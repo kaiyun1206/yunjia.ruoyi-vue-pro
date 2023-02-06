@@ -13,6 +13,7 @@ export interface FileClientConfig {
   accessSecret?: string
   domain: string
 }
+
 export interface FileConfigVO {
   id: number
   name: string

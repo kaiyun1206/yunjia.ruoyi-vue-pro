@@ -46,12 +46,12 @@
   </div>
 </template>
 <script setup lang="ts" name="UploadImgs">
-import {PropType, ref} from 'vue'
-import type {UploadFile, UploadProps, UploadUserFile} from 'element-plus'
-import {ElImageViewer, ElNotification, ElUpload} from 'element-plus'
+import { PropType, ref } from 'vue'
+import type { UploadFile, UploadProps, UploadUserFile } from 'element-plus'
+import { ElImageViewer, ElNotification, ElUpload } from 'element-plus'
 
-import {propTypes} from '@/utils/propTypes'
-import {getAccessToken, getTenantId} from '@/utils/auth'
+import { propTypes } from '@/utils/propTypes'
+import { getAccessToken, getTenantId } from '@/utils/auth'
 
 const message = useMessage() // 消息弹窗
 

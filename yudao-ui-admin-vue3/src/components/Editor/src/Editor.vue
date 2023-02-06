@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import {PropType} from 'vue'
-import {Editor, Toolbar} from '@wangeditor/editor-for-vue'
-import {i18nChangeLanguage, IDomEditor, IEditorConfig} from '@wangeditor/editor'
-import {propTypes} from '@/utils/propTypes'
-import {isNumber} from '@/utils/is'
-import {ElMessage} from 'element-plus'
-import {useLocaleStore} from '@/store/modules/locale'
-import {getAccessToken, getTenantId} from '@/utils/auth'
+import { PropType } from 'vue'
+import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
+import { i18nChangeLanguage, IDomEditor, IEditorConfig } from '@wangeditor/editor'
+import { propTypes } from '@/utils/propTypes'
+import { isNumber } from '@/utils/is'
+import { ElMessage } from 'element-plus'
+import { useLocaleStore } from '@/store/modules/locale'
+import { getAccessToken, getTenantId } from '@/utils/auth'
 
 type InsertFnType = (url: string, alt: string, href: string) => void
 

@@ -1,11 +1,11 @@
 <script lang="tsx">
 import { ElBreadcrumb, ElBreadcrumbItem } from 'element-plus'
-import { ref, watch, computed, unref, defineComponent, TransitionGroup } from 'vue'
+import { computed, defineComponent, ref, TransitionGroup, unref, watch } from 'vue'
+import type { RouteLocationNormalizedLoaded, RouteMeta } from 'vue-router'
 import { useRouter } from 'vue-router'
 import { usePermissionStore } from '@/store/modules/permission'
 import { filterBreadcrumb } from './helper'
 import { filter, treeToList } from '@/utils/tree'
-import type { RouteLocationNormalizedLoaded, RouteMeta } from 'vue-router'
 
 import { Icon } from '@/components/Icon'
 import { useAppStore } from '@/store/modules/app'
@@ -94,6 +94,7 @@ $prefix-cls: #{$elNamespace}-breadcrumb;
 .#{$prefix-cls} {
   :deep(&__item) {
     display: flex;
+
     .#{$prefix-cls}__inner {
       display: flex;
       align-items: center;

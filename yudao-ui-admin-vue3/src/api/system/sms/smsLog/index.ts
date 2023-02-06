@@ -36,6 +36,7 @@ export interface SmsLogPageReqVO extends PageParam {
   receiveStatus?: number
   receiveTime?: Date[]
 }
+
 export interface SmsLogExportReqVO {
   channelId?: number
   templateId?: number

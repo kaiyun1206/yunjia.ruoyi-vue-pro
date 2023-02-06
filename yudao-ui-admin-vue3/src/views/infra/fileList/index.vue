@@ -82,18 +82,18 @@
   </XModal>
 </template>
 <script setup lang="ts" name="FileList">
-import type {UploadInstance, UploadRawFile} from 'element-plus'
+import type { UploadInstance, UploadRawFile } from 'element-plus'
 // 业务相关的 import
-import {allSchemas} from './fileList.data'
+import { allSchemas } from './fileList.data'
 import * as FileApi from '@/api/infra/fileList'
-import {getAccessToken, getTenantId} from '@/utils/auth'
-import {useClipboard} from '@vueuse/core'
+import { getAccessToken, getTenantId } from '@/utils/auth'
+import { useClipboard } from '@vueuse/core'
 
-const {t} = useI18n() // 国际化
+const { t } = useI18n() // 国际化
 const message = useMessage() // 消息弹窗
 
 // 列表相关的变量
-const [registerTable, {reload, deleteData}] = useXTable({
+const [registerTable, { reload, deleteData }] = useXTable({
   allSchemas: allSchemas,
   getListApi: FileApi.getFilePageApi,
   deleteApi: FileApi.deleteFileApi

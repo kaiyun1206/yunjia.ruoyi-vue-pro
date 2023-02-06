@@ -1,4 +1,4 @@
-import type {VxeCrudSchema} from '@/hooks/web/useVxeCrudSchemas'
+import type { VxeCrudSchema } from '@/hooks/web/useVxeCrudSchemas'
 
 const { t } = useI18n() // 国际化
 

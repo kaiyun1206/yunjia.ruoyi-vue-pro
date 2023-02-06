@@ -26,18 +26,18 @@
         </el-form-item>
       </el-col>
       <el-col :span="24" style="padding-left: 10px; padding-right: 10px">
-        <el-form-item prop="loginName">
+        <el-form-item prop="username">
           <el-input
-            v-model="loginData.loginForm.loginName"
+            v-model="loginData.loginForm.username"
             :placeholder="t('login.usernamePlaceholder')"
             :prefix-icon="iconAvatar"
           />
         </el-form-item>
       </el-col>
       <el-col :span="24" style="padding-left: 10px; padding-right: 10px">
-        <el-form-item prop="loginPassword">
+        <el-form-item prop="password">
           <el-input
-            v-model="loginData.loginForm.loginPassword"
+            v-model="loginData.loginForm.password"
             type="password"
             :placeholder="t('login.passwordPlaceholder')"
             show-password
@@ -128,16 +128,16 @@
   </el-form>
 </template>
 <script setup lang="ts">
-import {ElLoading} from 'element-plus'
+import { ElLoading } from 'element-plus'
 import LoginFormTitle from './LoginFormTitle.vue'
-import type {RouteLocationNormalizedLoaded} from 'vue-router'
+import type { RouteLocationNormalizedLoaded } from 'vue-router'
 
-import {useIcon} from '@/hooks/web/useIcon'
+import { useIcon } from '@/hooks/web/useIcon'
 
 import * as authUtil from '@/utils/auth'
-import {usePermissionStore} from '@/store/modules/permission'
+import { usePermissionStore } from '@/store/modules/permission'
 import * as LoginApi from '@/api/login'
-import {LoginStateEnum, useFormValid, useLoginState} from './useLogin'
+import { LoginStateEnum, useFormValid, useLoginState } from './useLogin'
 
 const { t } = useI18n()
 const message = useMessage()

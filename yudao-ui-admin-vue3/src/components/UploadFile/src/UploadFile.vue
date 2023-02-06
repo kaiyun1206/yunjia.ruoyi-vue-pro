@@ -33,11 +33,11 @@
   </div>
 </template>
 <script setup lang="ts" name="UploadFile">
-import {PropType} from 'vue'
+import { PropType } from 'vue'
 
-import {propTypes} from '@/utils/propTypes'
-import {getAccessToken, getTenantId} from '@/utils/auth'
-import type {UploadInstance, UploadProps, UploadRawFile, UploadUserFile} from 'element-plus'
+import { propTypes } from '@/utils/propTypes'
+import { getAccessToken, getTenantId } from '@/utils/auth'
+import type { UploadInstance, UploadProps, UploadRawFile, UploadUserFile } from 'element-plus'
 
 const message = useMessage() // 消息弹窗
 const emit = defineEmits(['update:modelValue'])

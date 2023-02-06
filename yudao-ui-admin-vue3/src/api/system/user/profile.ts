@@ -4,14 +4,17 @@ export interface ProfileDept {
   id: number
   name: string
 }
+
 export interface ProfileRole {
   id: number
   name: string
 }
+
 export interface ProfilePost {
   id: number
   name: string
 }
+
 export interface SocialUser {
   id: number
   type: number
@@ -24,6 +27,7 @@ export interface SocialUser {
   code: string
   state: string
 }
+
 export interface ProfileVO {
   id: number
   username: string
